@@ -25,7 +25,7 @@ Let's make plots with a comprehensive <span class="code">ggplot2</span> package.
     require(ggplot2)
 ```
 
-To calculate the total number of steps per day lets use the data.table <span class="code">DT[i, j, by]</span> syntax:
+To calculate the **total number of steps per day** let's use the data.table <span class="code">DT[i, j, by]</span> syntax:
 ```{r echo=TRUE, fig.path="./figures/"}
     stepsPerDay <- ActivityData[, sum(steps), by = date]
     colnames(stepsPerDay)[2] <- "StepsPerDay"
@@ -33,7 +33,7 @@ To calculate the total number of steps per day lets use the data.table <span cla
         xlab("\n Steps per day")
 ```
 
-Here is the <span class="code">summary()</span> function report with median and mean included:
+Here is the <span class="code">summary()</span> function report with **median** and **mean** included:
 ```{r echo=TRUE}
     options(digits = 10)
     summary(stepsPerDay[, StepsPerDay])
@@ -52,7 +52,7 @@ Assuming the step length of ~70 cm this corresponds to the average distance  cov
 That is pretty good! Also the famous recommendation about walking 10000 steps per day is fulfilled!  
    
 ## What is the average daily activity pattern?
-Again, let's use the the data.table <span class="code">DT[i, j, by]</span> syntax with the 'interval' column as factor. To present the results in more readable fashion, let's plot the average daily activity pattern versus the time of the day, converting the 'interval' to time of <span class="code">POSIXlt</span> class:
+Again, let's use the the data.table <span class="code">DT[i, j, by]</span> syntax with the 'interval' column as factor. To present the results in more readable fashion, let's plot the **average daily activity pattern** versus the **time of the day**, converting the 'interval' to time of <span class="code">POSIXlt</span> class:
 ```{r echo=TRUE}
     meanActivityPattern <- ActivityData[, mean(steps, na.rm = TRUE), by = interval]
     colnames(meanActivityPattern)[2] <- "meanStepsPerInt"
@@ -66,7 +66,7 @@ To attach the  <span class="code">POSIXlt</span> class column with less work and
     meanActivityPattern$intTime <- intervalTime
 ```
 
-Finally, let's plot the average daily activity pattern with the time of day as x-axis:
+Finally, let's plot the **average daily activity pattern** with the **time of day** as x-axis:
 
 ```{r echo=T, fig.path="./figures/"}
     plot(intervalTime, meanActivityPattern[, "meanStepsPerInt"], type="l",
@@ -79,7 +79,7 @@ The maximum activity time slot:
     strftime(meanActivityPattern[which.max(meanActivityPattern[, 2]), "intTime"], format="%H:%M")
 ```
 
-That is 8:35 in the morning.   
+That is **8:35** in the morning.   
    
 The 'meanStepsPerInt' versus the 'interval' plot requested in this Course Project is shown below:
 ```{r echo=T, fig.path="./figures/"}
@@ -108,14 +108,14 @@ The missing days are:
     missingDays
 ```
 
-For this data imputing 'steps' values for missing days is pretty speculative. Interpolating the daily activity pattern from the closest days with data can be somewhat useful. There is no clear pattern in the total number of steps per day plotted versus date:
+For this data imputing 'steps' values for missing days is pretty speculative. Interpolating the **daily activity pattern** from the closest days with data can be somewhat useful. There is no clear pattern in the **number of steps per day** plotted versus **date**:
 ```{r echo=T, fig.path="./figures/"}
     qplot(date, V1, data = ActivityData[, sum(steps), by = date], geom = "line", 
           xlab = "Date", 
           ylab = "Total Number of Steps" )
 ```
 
-However, let's interpolate daily activity pattern for missing dates from the closest neighboring days with data. If the missing day is at the borders of the dataset (i.e. only one neighbor exist) the daily activity will be filled with the activity pattern averaged over all days.
+However, let's interpolate the **daily activity pattern** for missing dates from the closest days with data. If the missing day is at the borders of the dataset (i.e. only one neighbor exist) the daily activity will be filled with the activity pattern averaged over all days.
 ```{r echo=T , fig.path="./figures/"}
     ActivityDataFilled <- copy(ActivityData)
     #indices of days with missing data
@@ -144,21 +144,21 @@ However, let's interpolate daily activity pattern for missing dates from the clo
 
 ```
 
-Lets check if the values of the mean and median for the distribution of the number of steps per day have changed after imputing the missing days.
-The new median and mean from <span class="code">summary()</span> report:
+Lets check if the values of the **mean** and **median** for the distribution of the **number of steps per day** have changed after imputing the missing days.
+The new **median** and **mean** from <span class="code">summary()</span> report:
 ```{r echo=F}
     summary(stepsPerDayFilled$StepsPerDay)
 ```
-As compared to old median and mean:
+Compared to old **median** and **mean**:
 ```{r echo=F}
     summary(stepsPerDay$StepsPerDay)
 ```
 
-The values have slightly changed.
+the values have slightly changed.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
-To answer this question the average daily activity pattern should be calculated separately for 'weekday' and 'weekend'. The factor column with levels 'weekday' and 'weekend' can be created as following:  
+To answer this question the **average daily activity pattern** should be calculated separately for 'weekday' and 'weekend'. The factor column with levels 'weekday' and 'weekend' can be created as following:  
 ```{r echo=T}
     # creating a vector of weekends and weekdays by checking if the 'date' is Saturday or Sunday
     ifweekend <- ifelse( test = weekdays(ActivityDataFilled$date) %in% c("Saturday", "Sunday"), 
@@ -168,7 +168,7 @@ To answer this question the average daily activity pattern should be calculated 
     ActivityDataFilled[, ifWeekend:=as.factor(ifweekend)]
 ```
 
-Then, using the hierarchical grouping with <span class="code">by = list()</span>,  the mean activity patterns for two factor levels can be calculated:  
+Then, using the hierarchical grouping with <span class="code">by = list()</span>,  the **mean activity patterns** for two factor levels can be calculated:  
 ```{r echo=T}
     # calculating the average daily activity pattern separately for weekend and weekday
     meanPatterns <- ActivityDataFilled[, mean(steps), by = list(interval, ifWeekend)]
@@ -183,5 +183,5 @@ According to the plot example in the README file the <span class="code">lattice<
            ylab = "Number of steps")
 ```
 
-There are certainly some differences in daily activity patterns for weekend and weekdays. Both patterns peak at morning. However, the 'weekend' activity pattern is slightly more uniform, while for the 'weekday' pattern the morning activity peak is more pronounced. 
+There are certainly some differences in **daily activity patterns** for weekend and weekdays. Both patterns peak at morning. However, the 'weekend' activity pattern is slightly more uniform, while for the 'weekday' pattern the morning activity peak is more pronounced. 
    
