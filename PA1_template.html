@@ -36,6 +36,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 </script>
 
 
+<link href="data:text/css,%2Ecode%7B%0A%20%20%20%20color%3Adarkred%3B%20%0A%20%20%20%20font%2Dfamily%3ACourier%3B%20%0A%20%20%20%20font%2Dsize%3A%20medium%3B%0A%7D%0A" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -64,11 +65,6 @@ img {
 </div>
 
 
-<style type="text/css">
-.code{
-color:darkred; font-family:Courier; font-size: medium;
-}
-</style>
 <div id="loading-and-preprocessing-the-data" class="section level2">
 <h2>Loading and preprocessing the data</h2>
 <p>Let’s assume the zip file is already downloaded to working directory. After unzipping the raw <span class="code">.csv</span> data can be read with the fast <span class="code">fread(input, …)</span> function from the <span class="code">data.table</span> package. The raw format of the ‘date’ column coincides with the default format of <span class="code">as.Date(x, …)</span> function: “%Y-%m-%d”.</p>

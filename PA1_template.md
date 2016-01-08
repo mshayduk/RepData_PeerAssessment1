@@ -1,9 +1,4 @@
 # Reproducible Research: Peer Assessment 1
-<style type="text/css">
-.code{
-color:darkred; font-family:Courier; font-size: medium;
-}
-</style>
 
 ## Loading and preprocessing the data
 
