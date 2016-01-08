@@ -1,6 +1,6 @@
 # Reproducible Research: Peer Assessment 1
 <style type="text/css">
-span.code{
+.code{
 color:darkred; font-family:Courier; font-size: medium;
 }
 </style>
