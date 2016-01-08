@@ -30,7 +30,7 @@ Let's make plots with a comprehensive <span class="code">ggplot2</span> package.
 ```
 
 To calculate the total number of steps per day lets use the data.table <span class="code">DT[i, j, by]</span> syntax:
-```{r echo=TRUE}
+```{r echo=TRUE, fig.path="./figures/"}
     stepsPerDay <- ActivityData[, sum(steps), by = date]
     colnames(stepsPerDay)[2] <- "StepsPerDay"
     qplot(stepsPerDay[, StepsPerDay], binwidth=1000, alpha=I(0.3)) + 
@@ -72,7 +72,7 @@ To attach the  <span class="code">POSIXlt</span> class column with less work and
 
 Finally, let's plot the average daily activity pattern with the time of day as x-axis:
 
-```{r echo=T}
+```{r echo=T, fig.path="./figures/"}
     plot(intervalTime, meanActivityPattern[, "meanStepsPerInt"], type="l",
          xlab = "\n Time of day", 
          ylab = "Average number of steps per 5 minutes")
@@ -86,7 +86,7 @@ The maximum activity time slot:
 That is 8:35 in the morning.   
    
 The 'meanStepsPerInt' versus the 'interval' plot requested in this Course Project is shown below:
-```{r echo=T}
+```{r echo=T, fig.path="./figures/"}
     plot(meanStepsPerInt ~ interval, data=meanActivityPattern, type="l")
 ```
 
@@ -100,7 +100,7 @@ The number of missing values for each column is reported by <span class="code">s
 
 The <span class="code">NA</span>s are present only in 'steps' column. Moreover they are strictly grouped by date, i.e. data is totally missing for certain days, while the data for other days is complete. This can be seen from the plot below, where the number of <span class="code">NA</span>s per day is plotted versus the date:
 
-```{r echo=T}
+```{r echo=T, fig.path="./figures/"}
     naPerDay <- ActivityData[,sum(is.na(steps)), by=date]; 
     colnames(naPerDay)[2] <- "NumOfNA"
     plot(naPerDay, xlab = "\n Date", ylab = "Number of NAs")
@@ -113,14 +113,14 @@ The missing days are:
 ```
 
 For this data imputing 'steps' values for missing days is pretty speculative. Interpolating the daily activity pattern from the closest days with data can be somewhat useful. There is no clear pattern in the total number of steps per day plotted versus date:
-```{r echo=T}
+```{r echo=T, fig.path="./figures/"}
     qplot(date, V1, data = ActivityData[, sum(steps), by = date], geom = "line", 
           xlab = "Date", 
           ylab = "Total Number of Steps" )
 ```
 
 However, let's interpolate daily activity pattern for missing dates from the closest neighboring days with data. If the missing day is at the borders of the dataset (i.e. only one neighbor exist) the daily activity will be filled with the activity pattern averaged over all days.
-```{r echo=T}
+```{r echo=T , fig.path="./figures/"}
     ActivityDataFilled <- copy(ActivityData)
     #indices of days with missing data
     missindex <- which(naPerDay$NumOfNA>1)
@@ -180,7 +180,7 @@ Then, using the hierarchical grouping with <span class="code">by = list()</span>
 ```
 
 According to the plot example in the README file the <span class="code">lattice</span> package was used. Let's use it as well:
-```{r echo=T}
+```{r echo=T, fig.path="./figures/"}
     require(lattice)
     xyplot(NumberOfSteps~interval | ifWeekend, data = meanPatterns, layout=c(1,2), type="l", 
            xlab = "Interval",

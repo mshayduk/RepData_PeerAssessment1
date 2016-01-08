@@ -46,7 +46,7 @@ To calculate the total number of steps per day lets use the data.table <span cla
         xlab("\n Steps per day")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
+![](./figures/unnamed-chunk-3-1.png) 
 
 Here is the <span class="code">summary()</span> function report with median and mean included:
 
@@ -99,7 +99,7 @@ Finally, let's plot the average daily activity pattern with the time of day as x
          ylab = "Average number of steps per 5 minutes")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-9-1.png) 
+![](./figures/unnamed-chunk-9-1.png) 
 
 The maximum activity time slot:
 
@@ -119,7 +119,7 @@ The 'meanStepsPerInt' versus the 'interval' plot requested in this Course Projec
     plot(meanStepsPerInt ~ interval, data=meanActivityPattern, type="l")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-11-1.png) 
+![](./figures/unnamed-chunk-11-1.png) 
 
    
 ## Imputing missing values
@@ -150,7 +150,7 @@ The <span class="code">NA</span>s are present only in 'steps' column. Moreover t
     plot(naPerDay, xlab = "\n Date", ylab = "Number of NAs")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-13-1.png) 
+![](./figures/unnamed-chunk-13-1.png) 
 
 The missing days are:
 
@@ -176,7 +176,7 @@ For this data imputing 'steps' values for missing days is pretty speculative. In
 ## Warning: Removed 2 rows containing missing values (geom_path).
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-15-1.png) 
+![](./figures/unnamed-chunk-15-1.png) 
 
 However, let's interpolate daily activity pattern for missing dates from the closest neighboring days with data. If the missing day is at the borders of the dataset (i.e. only one neighbor exist) the daily activity will be filled with the activity pattern averaged over all days.
 
@@ -207,7 +207,7 @@ However, let's interpolate daily activity pattern for missing dates from the clo
         xlab("\n Steps per day")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-16-1.png) 
+![](./figures/unnamed-chunk-16-1.png) 
 
 Lets check if the values of the mean and median for the distribution of the number of steps per day have changed after imputing the missing days.
 The new median and mean from <span class="code">summary()</span> report:
@@ -262,7 +262,7 @@ According to the plot example in the README file the <span class="code">lattice<
            ylab = "Number of steps")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-21-1.png) 
+![](./figures/unnamed-chunk-21-1.png) 
 
 There are certainly some differences in daily activity patterns for weekend and weekdays. Both patterns peak at morning. However, the 'weekend' activity pattern is slightly more uniform, while for the 'weekday' pattern the morning activity peak is more pronounced. 
    
