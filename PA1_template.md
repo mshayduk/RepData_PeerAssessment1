@@ -1,4 +1,9 @@
 # Reproducible Research: Peer Assessment 1
+<style type="text/css">
+span.code{
+color:darkred; font-family:Courier; font-size: medium;
+}
+</style>
 
 ## Loading and preprocessing the data
 
@@ -32,7 +37,7 @@ Let's make plots with a comprehensive <span class="code">ggplot2</span> package.
 ## Loading required package: ggplot2
 ```
 
-To calculate the **total number of steps per day** let's use the data.table <span class="code">DT[i, j, by]</span> syntax:
+To calculate the total number of steps per day lets use the data.table <span class="code">DT[i, j, by]</span> syntax:
 
 ```r
     stepsPerDay <- ActivityData[, sum(steps), by = date]
@@ -41,9 +46,9 @@ To calculate the **total number of steps per day** let's use the data.table <spa
         xlab("\n Steps per day")
 ```
 
-![](./figures/unnamed-chunk-3-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
 
-Here is the <span class="code">summary()</span> function report with **median** and **mean** included:
+Here is the <span class="code">summary()</span> function report with median and mean included:
 
 ```r
     options(digits = 10)
@@ -69,7 +74,7 @@ Assuming the step length of ~70 cm this corresponds to the average distance  cov
 That is pretty good! Also the famous recommendation about walking 10000 steps per day is fulfilled!  
    
 ## What is the average daily activity pattern?
-Again, let's use the the data.table <span class="code">DT[i, j, by]</span> syntax with the 'interval' column as factor. To present the results in more readable fashion, let's plot the **average daily activity pattern** versus the **time of the day**, converting the 'interval' to time of <span class="code">POSIXlt</span> class:
+Again, let's use the the data.table <span class="code">DT[i, j, by]</span> syntax with the 'interval' column as factor. To present the results in more readable fashion, let's plot the average daily activity pattern versus the time of the day, converting the 'interval' to time of <span class="code">POSIXlt</span> class:
 
 ```r
     meanActivityPattern <- ActivityData[, mean(steps, na.rm = TRUE), by = interval]
@@ -85,7 +90,7 @@ To attach the  <span class="code">POSIXlt</span> class column with less work and
     meanActivityPattern$intTime <- intervalTime
 ```
 
-Finally, let's plot the **average daily activity pattern** with the **time of day** as x-axis:
+Finally, let's plot the average daily activity pattern with the time of day as x-axis:
 
 
 ```r
@@ -94,7 +99,7 @@ Finally, let's plot the **average daily activity pattern** with the **time of da
          ylab = "Average number of steps per 5 minutes")
 ```
 
-![](./figures/unnamed-chunk-9-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-9-1.png) 
 
 The maximum activity time slot:
 
@@ -106,7 +111,7 @@ The maximum activity time slot:
 ## [1] "08:35"
 ```
 
-That is **8:35** in the morning.   
+That is 8:35 in the morning.   
    
 The 'meanStepsPerInt' versus the 'interval' plot requested in this Course Project is shown below:
 
@@ -114,7 +119,7 @@ The 'meanStepsPerInt' versus the 'interval' plot requested in this Course Projec
     plot(meanStepsPerInt ~ interval, data=meanActivityPattern, type="l")
 ```
 
-![](./figures/unnamed-chunk-11-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-11-1.png) 
 
    
 ## Imputing missing values
@@ -145,7 +150,7 @@ The <span class="code">NA</span>s are present only in 'steps' column. Moreover t
     plot(naPerDay, xlab = "\n Date", ylab = "Number of NAs")
 ```
 
-![](./figures/unnamed-chunk-13-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-13-1.png) 
 
 The missing days are:
 
@@ -159,7 +164,7 @@ The missing days are:
 ## [6] "2012-11-10" "2012-11-14" "2012-11-30"
 ```
 
-For this data imputing 'steps' values for missing days is pretty speculative. Interpolating the **daily activity pattern** from the closest days with data can be somewhat useful. There is no clear pattern in the **number of steps per day** plotted versus **date**:
+For this data imputing 'steps' values for missing days is pretty speculative. Interpolating the daily activity pattern from the closest days with data can be somewhat useful. There is no clear pattern in the total number of steps per day plotted versus date:
 
 ```r
     qplot(date, V1, data = ActivityData[, sum(steps), by = date], geom = "line", 
@@ -171,9 +176,9 @@ For this data imputing 'steps' values for missing days is pretty speculative. In
 ## Warning: Removed 2 rows containing missing values (geom_path).
 ```
 
-![](./figures/unnamed-chunk-15-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-15-1.png) 
 
-However, let's interpolate the **daily activity pattern** for missing dates from the closest days with data. If the missing day is at the borders of the dataset (i.e. only one neighbor exist) the daily activity will be filled with the activity pattern averaged over all days.
+However, let's interpolate daily activity pattern for missing dates from the closest neighboring days with data. If the missing day is at the borders of the dataset (i.e. only one neighbor exist) the daily activity will be filled with the activity pattern averaged over all days.
 
 ```r
     ActivityDataFilled <- copy(ActivityData)
@@ -202,27 +207,27 @@ However, let's interpolate the **daily activity pattern** for missing dates from
         xlab("\n Steps per day")
 ```
 
-![](./figures/unnamed-chunk-16-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-16-1.png) 
 
-Lets check if the values of the **mean** and **median** for the distribution of the **number of steps per day** have changed after imputing the missing days.
-The new **median** and **mean** from <span class="code">summary()</span> report:
+Lets check if the values of the mean and median for the distribution of the number of steps per day have changed after imputing the missing days.
+The new median and mean from <span class="code">summary()</span> report:
 
 ```
 ##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
 ##    41.00  8821.00 10641.00 10600.93 12883.00 21194.00
 ```
-Compared to old **median** and **mean**:
+As compared to old median and mean:
 
 ```
 ##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max.     NA's 
 ##    41.00  8841.00 10765.00 10766.19 13294.00 21194.00        8
 ```
 
-the values have slightly changed.
+The values have slightly changed.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
-To answer this question the **average daily activity pattern** should be calculated separately for 'weekday' and 'weekend'. The factor column with levels 'weekday' and 'weekend' can be created as following:  
+To answer this question the average daily activity pattern should be calculated separately for 'weekday' and 'weekend'. The factor column with levels 'weekday' and 'weekend' can be created as following:  
 
 ```r
     # creating a vector of weekends and weekdays by checking if the 'date' is Saturday or Sunday
@@ -233,7 +238,7 @@ To answer this question the **average daily activity pattern** should be calcula
     ActivityDataFilled[, ifWeekend:=as.factor(ifweekend)]
 ```
 
-Then, using the hierarchical grouping with <span class="code">by = list()</span>,  the **mean activity patterns** for two factor levels can be calculated:  
+Then, using the hierarchical grouping with <span class="code">by = list()</span>,  the mean activity patterns for two factor levels can be calculated:  
 
 ```r
     # calculating the average daily activity pattern separately for weekend and weekday
@@ -257,7 +262,7 @@ According to the plot example in the README file the <span class="code">lattice<
            ylab = "Number of steps")
 ```
 
-![](./figures/unnamed-chunk-21-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-21-1.png) 
 
-There are certainly some differences in **daily activity patterns** for weekend and weekdays. Both patterns peak at morning. However, the 'weekend' activity pattern is slightly more uniform, while for the 'weekday' pattern the morning activity peak is more pronounced. 
+There are certainly some differences in daily activity patterns for weekend and weekdays. Both patterns peak at morning. However, the 'weekend' activity pattern is slightly more uniform, while for the 'weekday' pattern the morning activity peak is more pronounced. 
    
